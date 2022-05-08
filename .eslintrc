@@ -1,10 +1,14 @@
 {
   "env": {
-    "browser": true
+    "browser": true,
+    "es2021": true
   },
   "parser": "@babel/eslint-parser",
   "extends": ["airbnb"],
   "parserOptions": {
     "requireConfigFile": false
-  }
+  },
+  "rules": {
+    "import/prefer-default-export": "off",
+  } 
 }

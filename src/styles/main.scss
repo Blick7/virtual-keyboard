@@ -1,0 +1,70 @@
+.container {
+  margin: 0 auto;
+  max-width: 780px;
+  width: 100%;
+}
+
+.text {
+  width: 100%;
+  max-width: 780px;
+  height: 100px;
+}
+
+.keyboard {
+  background-color: rgb(105, 78, 78);
+  padding: 3px;
+  max-width: 780px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+.button {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin: 2px;
+  width: 45px;
+  height: 45px;
+  border-radius: 3px;
+  font-size: 18px;
+  background-color: rgb(146, 143, 143);
+}
+
+[data-code="Tab"] {
+  width: 70px;
+}
+[data-code="Delete"] {
+  flex: 1;
+}
+[data-code="Backspace"] {
+  flex: 1;
+}
+[data-code="CapsLock"] {
+  width: 90px;
+}
+[data-code="Enter"] {
+  flex: 1;
+}
+[data-code="ShiftLeft"] {
+  width: 110px;
+}
+[data-code="ShiftRight"] {
+  flex: 1;
+}
+[data-code="ControlLeft"] {
+  width: 65px;
+}
+[data-code="ControlRight"] {
+  flex: 1;
+}
+[data-code="Space"] {
+  width: 335px;
+}
+
+.active {
+  background-color: rgb(97, 93, 93);
+  transition: 0.5s;
+}

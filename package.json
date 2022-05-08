@@ -8,7 +8,8 @@
     "dev": "webpack",
     "watch": "webpack --watch",
     "build-prod": "webpack --mode=production",
-    "clean": "rd /s /q dist"
+    "clean": "rd /s /q dist",
+    "lint": "eslint --fix --ext .js,.jsx ."
   },
   "keywords": [],
   "author": "",
