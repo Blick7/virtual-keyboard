@@ -4,13 +4,14 @@ import './styles/main.scss';
 // import js
 import { keys } from './js/keys';
 import { keyboard } from './js/keyboard';
+import { checkLanguage, setLanguage } from './js/localStorage';
 
 document.body.innerHTML = keyboard;
 const rows = document.querySelectorAll('.row');
 const textarea = document.querySelector('.text');
 const excludeKeysRegex = /Tab|Capslock|Shift|Ctrl|Lang|Alt|Enter|Del|Backspace|Space/;
 let capsLock = false;
-let langKeys = keys.enKeys;
+let langKeys = checkLanguage() || keys.enKeys;
 
 const generateKeyboard = () => {
   rows.forEach((item, index) => {
@@ -47,7 +48,7 @@ const setButtonSymbol = (button) => {
       textarea.innerHTML += '   ';
       break;
     case 'shift':
-      textarea.innerHTML += ''; // TODO
+      textarea.innerHTML += '';
       break;
     case 'capslock':
       capsLock = !capsLock;
@@ -91,6 +92,8 @@ const setButtonSymbol = (button) => {
 document.addEventListener('keydown', (event) => {
   if (event.code === 'AltLeft' && event.ctrlKey) {
     langKeys = langKeys === keys.enKeys ? keys.ruKeys : keys.enKeys;
+    // ! add lang func here
+    setLanguage(langKeys);
     generateKeyboard();
   }
 });
