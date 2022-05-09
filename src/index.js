@@ -12,9 +12,6 @@ const excludeKeysRegex = /Tab|Capslock|Shift|Ctrl|Lang|Alt|Enter|Del|Backspace|S
 let capsLock = false;
 let langKeys = keys.enKeys;
 
-// eslint-disable-next-line no-console
-console.log(keys.ruKeys);
-
 const generateKeyboard = () => {
   rows.forEach((item, index) => {
     for (let i = 0; i < item.children.length; i += 1) {
@@ -53,7 +50,6 @@ const setButtonSymbol = (button) => {
       textarea.innerHTML += ''; // TODO
       break;
     case 'capslock':
-      textarea.innerHTML += ''; // TODO
       capsLock = !capsLock;
       generateKeyboard();
       break;
@@ -92,18 +88,34 @@ const setButtonSymbol = (button) => {
   }
 };
 
+document.addEventListener('keydown', (event) => {
+  if (event.code === 'AltLeft' && event.ctrlKey) {
+    langKeys = langKeys === keys.enKeys ? keys.ruKeys : keys.enKeys;
+    generateKeyboard();
+  }
+});
+
 document.onkeydown = (event) => {
-  if (event.code === 'AltLeft') {
-    document.onkeyup = (e) => {
-      if (e.code === 'ShiftLeft') {
-        // eslint-disable-next-line no-console
-        console.log('DONE');
-        langKeys = langKeys === keys.enKeys ? keys.ruKeys : keys.enKeys;
-        generateKeyboard();
-      } else {
-        document.onkeyup = null;
-      }
-    };
+  if (event.code === 'ShiftLeft') {
+    if (langKeys === keys.enKeys) {
+      langKeys = keys.enShiftKeys;
+    } else if (langKeys === keys.ruKeys) {
+      langKeys = keys.ruShiftKeys;
+    }
+    capsLock = true;
+    generateKeyboard();
+  }
+};
+
+document.onkeyup = (event) => {
+  if (event.code === 'ShiftLeft') {
+    if (langKeys === keys.enShiftKeys) {
+      langKeys = keys.enKeys;
+    } else if (langKeys === keys.ruShiftKeys) {
+      langKeys = keys.ruKeys;
+    }
+    capsLock = false;
+    generateKeyboard();
   }
 };
 
