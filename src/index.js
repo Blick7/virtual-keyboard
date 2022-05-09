@@ -8,7 +8,7 @@ import { checkLanguage, setLanguage } from './js/localStorage';
 
 document.body.innerHTML = keyboard;
 const rows = document.querySelectorAll('.row');
-const textarea = document.querySelector('.text');
+const textarea = document.querySelector('.textarea');
 const excludeKeysRegex = /Tab|Capslock|Shift|Ctrl|Lang|Alt|Enter|Del|Backspace|Space/;
 let capsLock = false;
 let langKeys = checkLanguage() || keys.enKeys;
