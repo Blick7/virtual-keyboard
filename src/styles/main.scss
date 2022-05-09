@@ -31,6 +31,7 @@
   border-radius: 3px;
   font-size: 18px;
   background-color: rgb(146, 143, 143);
+  cursor: pointer;
 }
 
 [data-code="Tab"] {
@@ -66,5 +67,7 @@
 
 .active {
   background-color: rgb(97, 93, 93);
-  transition: 0.5s;
+  transition: 0.3s;
+  border-radius: 10px;
+  transform: scale(0.9);
 }

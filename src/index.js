@@ -8,23 +8,84 @@ import { keyboard } from './js/keyboard';
 document.body.innerHTML = keyboard;
 const rows = document.querySelectorAll('.row');
 const textarea = document.querySelector('.text');
+const excludeKeysRegex = /Tab|Capslock|Shift|Ctrl|Lang|Alt|Enter|Del|Backspace|Space/;
+let capsLock = false;
 
 const generateKeyboard = () => {
-  // eslint-disable-next-line no-console
-  console.log(keys.enKeys);
   rows.forEach((item, index) => {
     for (let i = 0; i < item.children.length; i += 1) {
       const elem = item.children[i];
-      elem.innerHTML = keys.enKeys[index][i];
-      if (elem.innerHTML === 'Space') {
-        elem.innerHTML = ' ';
+      if (capsLock) {
+        elem.innerHTML = keys.enKeys[index][i].toUpperCase();
+        if (excludeKeysRegex.test(keys.enKeys[index][i])) {
+          elem.innerHTML = keys.enKeys[index][i];
+        }
+        if (elem.innerHTML === 'Space') {
+          elem.innerHTML = ' ';
+        }
+      } else {
+        elem.innerHTML = keys.enKeys[index][i].toLowerCase();
+        if (excludeKeysRegex.test(keys.enKeys[index][i])) {
+          elem.innerHTML = keys.enKeys[index][i];
+        }
+        if (elem.innerHTML === 'Space') {
+          elem.innerHTML = ' ';
+        }
       }
     }
   });
 };
 
 document.addEventListener('DOMContentLoaded', generateKeyboard);
-textarea.innerHTML += 'D';
+
+const setButtonSymbol = (button) => {
+  // eslint-disable-next-line no-console
+  console.log(button.textContent);
+  switch (button.textContent.toLowerCase()) {
+    case 'tab':
+      textarea.innerHTML += '   ';
+      break;
+    case 'shift':
+      textarea.innerHTML += '';
+      break;
+    case 'capslock':
+      textarea.innerHTML += ''; // TODO
+      capsLock = !capsLock;
+      generateKeyboard();
+      break;
+    case 'ctrl':
+      textarea.innerHTML += '';
+      break;
+    case 'alt':
+      textarea.innerHTML += '';
+      break;
+    case 'enter':
+      textarea.innerHTML += '\n';
+      break;
+    case 'del':
+      textarea.innerHTML += ''; // TODO
+      break;
+    case 'backspace':
+      textarea.innerHTML = textarea.innerHTML.slice(
+        0,
+        textarea.innerHTML.length - 1,
+      );
+      break;
+    // case '←':
+    //   textarea.selectionEnd -= 1;
+    //   // eslint-disable-next-line no-console
+    //   console.log(textarea.selectionStart);
+    //   break;
+    case 'Lang':
+      textarea.innerHTML += ''; // TODO
+      break;
+    default:
+      if (capsLock) {
+        textarea.innerHTML += button.textContent.toUpperCase();
+      } else { textarea.innerHTML += button.textContent; }
+      break;
+  }
+};
 
 document.addEventListener('keydown', (event) => {
   event.preventDefault(); // remove default action from space, tab and etc
@@ -32,12 +93,13 @@ document.addEventListener('keydown', (event) => {
   const { code } = event;
   buttons.forEach((button) => {
     if (button.dataset.code === code) {
-      // eslint-disable-next-line no-console
-      console.log(button);
-      textarea.innerHTML += button.textContent;
+      setButtonSymbol(button);
       button.classList.add('active');
     }
   });
+  // set cursor at the end of the text
+  textarea.focus();
+  textarea.setSelectionRange(textarea.value.length, textarea.value.length);
 });
 
 document.addEventListener('keyup', (event) => {
@@ -45,9 +107,33 @@ document.addEventListener('keyup', (event) => {
   const { code } = event;
   buttons.forEach((button) => {
     if (button.dataset.code === code) {
-      // eslint-disable-next-line no-console
-      console.log(button);
       button.classList.remove('active');
     }
   });
+});
+
+document.addEventListener('mousedown', (event) => {
+  event.preventDefault(); // remove default action from space, tab and etc
+  const buttons = document.querySelectorAll('[data-code]');
+  const { code } = event.target.dataset;
+  buttons.forEach((button) => {
+    if (button.dataset.code === code) {
+      setButtonSymbol(button);
+      button.classList.add('active');
+    }
+  });
+  // set cursor at the end of the text
+  textarea.focus();
+  textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+});
+
+document.addEventListener('mouseup', (event) => {
+  event.preventDefault(); // remove default action from space, tab and etc
+  const buttons = document.querySelectorAll('[data-code]');
+  buttons.forEach((button) => {
+    button.classList.remove('active');
+  });
+  // set cursor at the end of the text
+  textarea.focus();
+  textarea.setSelectionRange(textarea.value.length, textarea.value.length);
 });
