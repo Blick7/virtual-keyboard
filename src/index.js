@@ -41,8 +41,6 @@ const generateKeyboard = () => {
 document.addEventListener('DOMContentLoaded', generateKeyboard);
 
 const setButtonSymbol = (button) => {
-  // eslint-disable-next-line no-console
-  // console.log(button.textContent);
   switch (button.textContent.toLowerCase()) {
     case 'tab':
       textarea.innerHTML += '   ';
@@ -92,7 +90,6 @@ const setButtonSymbol = (button) => {
 document.addEventListener('keydown', (event) => {
   if (event.code === 'AltLeft' && event.ctrlKey) {
     langKeys = langKeys === keys.enKeys ? keys.ruKeys : keys.enKeys;
-    // ! add lang func here
     setLanguage(langKeys);
     generateKeyboard();
   }

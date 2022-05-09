@@ -1,6 +1,10 @@
 export const keyboard = `
 <div class="container">
-        <textarea class="text" autofocus></textarea>
+        <div class="info">
+            <h1 class="info__title">Virtual Keyboard</h1>
+            <span class="info__text">Use <strong> ctrl + alt </strong> to switch the language </span>
+        </div>
+        <textarea class="textarea" autofocus placeholder="Start typing your text..."></textarea>
         <div class="keyboard">
             <div class="row">
                 <div class="button" data-code="Backquote"></div>
