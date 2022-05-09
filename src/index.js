@@ -46,7 +46,7 @@ const setButtonSymbol = (button) => {
       textarea.innerHTML += '   ';
       break;
     case 'shift':
-      textarea.innerHTML += '';
+      textarea.innerHTML += ''; // TODO
       break;
     case 'capslock':
       textarea.innerHTML += ''; // TODO
