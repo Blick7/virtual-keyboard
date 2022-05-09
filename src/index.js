@@ -10,23 +10,27 @@ const rows = document.querySelectorAll('.row');
 const textarea = document.querySelector('.text');
 const excludeKeysRegex = /Tab|Capslock|Shift|Ctrl|Lang|Alt|Enter|Del|Backspace|Space/;
 let capsLock = false;
+let langKeys = keys.enKeys;
+
+// eslint-disable-next-line no-console
+console.log(keys.ruKeys);
 
 const generateKeyboard = () => {
   rows.forEach((item, index) => {
     for (let i = 0; i < item.children.length; i += 1) {
       const elem = item.children[i];
       if (capsLock) {
-        elem.innerHTML = keys.enKeys[index][i].toUpperCase();
-        if (excludeKeysRegex.test(keys.enKeys[index][i])) {
-          elem.innerHTML = keys.enKeys[index][i];
+        elem.innerHTML = langKeys[index][i].toUpperCase();
+        if (excludeKeysRegex.test(langKeys[index][i])) {
+          elem.innerHTML = langKeys[index][i];
         }
         if (elem.innerHTML === 'Space') {
           elem.innerHTML = ' ';
         }
       } else {
-        elem.innerHTML = keys.enKeys[index][i].toLowerCase();
-        if (excludeKeysRegex.test(keys.enKeys[index][i])) {
-          elem.innerHTML = keys.enKeys[index][i];
+        elem.innerHTML = langKeys[index][i].toLowerCase();
+        if (excludeKeysRegex.test(langKeys[index][i])) {
+          elem.innerHTML = langKeys[index][i];
         }
         if (elem.innerHTML === 'Space') {
           elem.innerHTML = ' ';
@@ -40,7 +44,7 @@ document.addEventListener('DOMContentLoaded', generateKeyboard);
 
 const setButtonSymbol = (button) => {
   // eslint-disable-next-line no-console
-  console.log(button.textContent);
+  // console.log(button.textContent);
   switch (button.textContent.toLowerCase()) {
     case 'tab':
       textarea.innerHTML += '   ';
@@ -76,14 +80,30 @@ const setButtonSymbol = (button) => {
     //   // eslint-disable-next-line no-console
     //   console.log(textarea.selectionStart);
     //   break;
-    case 'Lang':
-      textarea.innerHTML += ''; // TODO
+    case 'lang':
+      langKeys = langKeys === keys.enKeys ? keys.ruKeys : keys.enKeys;
+      generateKeyboard();
       break;
     default:
       if (capsLock) {
         textarea.innerHTML += button.textContent.toUpperCase();
       } else { textarea.innerHTML += button.textContent; }
       break;
+  }
+};
+
+document.onkeydown = (event) => {
+  if (event.code === 'AltLeft') {
+    document.onkeyup = (e) => {
+      if (e.code === 'ShiftLeft') {
+        // eslint-disable-next-line no-console
+        console.log('DONE');
+        langKeys = langKeys === keys.enKeys ? keys.ruKeys : keys.enKeys;
+        generateKeyboard();
+      } else {
+        document.onkeyup = null;
+      }
+    };
   }
 };
 
